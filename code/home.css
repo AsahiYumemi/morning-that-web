@@ -1,0 +1,101 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "mainFont";
+  src: url("./font/boku2b/Boku2-Bold.otf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+header {
+  width: 100%;
+  height: auto;
+
+  padding: 20px;
+
+  display: flex;
+  justify-content: end;
+}
+
+.hamburgerMenu_line {
+  width: 55px;
+  height: 55px;
+
+  position: relative;
+}
+.line {
+  display: block;
+  width: 55px;
+  height: 11px;
+  background-color: #ff8e51;
+  visibility: visible;
+
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+
+  transition: all 0.1s;
+}
+.line::before {
+  content: "";
+  display: block;
+  width: 55px;
+  height: 11px;
+  background-color: #ff8e51;
+  visibility: visible;
+
+  position: absolute;
+  top: -22px;
+  left: 0;
+
+  transition: all 0.5s;
+}
+.line::after {
+  content: "";
+  display: block;
+  width: 55px;
+  height: 11px;
+  background-color: #ff8e51;
+  visibility: visible;
+
+  position: absolute;
+  top: 22px;
+  left: 0;
+
+  transition: all 0.5s;
+}
+.open .line {
+  visibility: hidden;
+}
+.open .line::before {
+  visibility: visible;
+  transform: rotate(45deg);
+  top: 0;
+}
+.open .line::after {
+  visibility: visible;
+  transform: rotate(-45deg);
+  top: 0;
+}
+
+.hamburgerMenu {
+  position: fixed;
+  top: 0;
+  right: -100vh;
+  width: 20vw;
+  height: 100vh;
+}
+
+.top_logo {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: auto;
+}
