@@ -264,7 +264,7 @@ header {
   color: #ffffff;
 }
 
-.in_host {
+.in_game {
   width: 200px;
   height: 50px;
   text-align: center;
@@ -272,38 +272,16 @@ header {
   font-family: "mainFont";
   font-size: 20px;
 }
-.morning .in_host {
+.morning .in_game {
   background-color: #ff8e51;
   color: #ffffff;
   border: 0;
 }
-.night .in_host {
+.night .in_game {
   background-color: #490da4;
   color: #ffffff;
   border: 1px solid #ffffff;
 }
-.in_host:active {
-  opacity: 0.5;
-}
-
-.in_player {
-  width: 200px;
-  height: 50px;
-  text-align: center;
-
-  font-family: "mainFont";
-  font-size: 20px;
-}
-.morning .in_player {
-  background-color: #ff8e51;
-  color: #ffffff;
-  border: 0;
-}
-.night .in_player {
-  background-color: #490da4;
-  color: #ffffff;
-  border: 1px solid #ffffff;
-}
-.in_player:active {
+.in_game:active {
   opacity: 0.5;
 }
