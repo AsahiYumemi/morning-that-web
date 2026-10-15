@@ -11,6 +11,12 @@
   font-style: normal;
 }
 
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 body.morning {
   background-color: #ffffff;
 
@@ -23,7 +29,7 @@ body.night {
 }
 
 header {
-  width: 100%;
+  width: 100vw;
   height: 100px;
 
   padding: 20px;
@@ -224,4 +230,80 @@ header {
 }
 .night .top_night_logp {
   display: block;
+}
+
+.action {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  justify-content: end;
+  align-items: center;
+
+  padding-bottom: 150px;
+}
+
+.player_name {
+  width: 200px;
+  height: 50px;
+  text-align: center;
+
+  font-family: "mainFont";
+  font-size: 20px;
+}
+.morning .player_name {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  color: #909090;
+}
+.night .player_name {
+  background-color: #000000;
+  border: 1px solid #ffffff;
+  color: #8f8f8f;
+}
+
+.in_host {
+  width: 200px;
+  height: 50px;
+  text-align: center;
+
+  font-family: "mainFont";
+  font-size: 20px;
+}
+.morning .in_host {
+  background-color: #ff8e51;
+  color: #ffffff;
+  border: 0;
+}
+.night .in_host {
+  background-color: #490da4;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+.in_host:active {
+  opacity: 0.5;
+}
+
+.in_player {
+  width: 200px;
+  height: 50px;
+  text-align: center;
+
+  font-family: "mainFont";
+  font-size: 20px;
+}
+.morning .in_player {
+  background-color: #ff8e51;
+  color: #ffffff;
+  border: 0;
+}
+.night .in_player {
+  background-color: #490da4;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+.in_player:active {
+  opacity: 0.5;
 }
