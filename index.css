@@ -256,12 +256,12 @@ header {
 .morning .player_name {
   background-color: #ffffff;
   border: 1px solid #000000;
-  color: #909090;
+  color: #000000;
 }
 .night .player_name {
   background-color: #000000;
   border: 1px solid #ffffff;
-  color: #8f8f8f;
+  color: #ffffff;
 }
 
 .in_host {
