@@ -129,7 +129,7 @@ header {
   top: 0;
   right: 0;
   background-color: #1c1c1c;
-  border: 1px solid #ffffff;
+  border-left: 1px solid #ffffff;
 }
 
 .toggle {
