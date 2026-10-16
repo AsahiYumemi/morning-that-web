@@ -1,6 +1,7 @@
 /**userID　search */
 let userID;
 let playerName;
+let mode;
 const key = "morning-that";
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -10,10 +11,19 @@ window.addEventListener("DOMContentLoaded", () => {
     const data = JSON.parse(saved);
     userID = data.user_ID;
     playerName = data.player_name;
+    gameMode = data.game_mode;
 
     document.querySelector(".player_name").value = playerName;
+    if (gameMode === "night") {
+      document.querySelector(".all").classList.remove("morning");
+      document.querySelector(".all").classList.add("night");
+    }
+
+    mode = gameMode;
   } else {
     userID = crypto.randomUUID();
+
+    mode = "morning";
   }
 });
 
@@ -29,6 +39,7 @@ Btns.forEach((btn) => {
     const userData = {
       user_ID: userID,
       player_name: playerName,
+      game_mode: mode,
     };
 
     localStorage.setItem(key, JSON.stringify(userData));
@@ -38,7 +49,7 @@ Btns.forEach((btn) => {
 
     if (id === "host") {
       console.log("司会者として参加が選ばれた");
-      // 司会者用の処理を書く
+      window.location.href = "./pages/hostDisplay.html";
     } else if (id === "player") {
       console.log("回答者として参加が選ばれた");
       // 回答者用の処理を書く
@@ -62,4 +73,12 @@ const all = document.querySelector(".all");
 toggle.addEventListener("click", () => {
   all.classList.toggle("morning");
   all.classList.toggle("night");
+
+  if (mode === "morning") {
+    mode = "night";
+  } else {
+    mode = "morning";
+  }
+
+  console.log(mode);
 });
