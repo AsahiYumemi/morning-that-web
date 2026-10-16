@@ -30,7 +30,10 @@ inRoom.addEventListener("click", async () => {
   const thinkingTime = document.getElementById("thinkingTime").value;
   const roomName = document.getElementById("roomName").value;
 
-  if (!playerCount || !thinkingTime || !roomName) return;
+  if (!playerCount || !thinkingTime || !roomName) {
+    alert("入力漏れがあります。");
+    return;
+  }
 
   const roomRef = doc(db, "rooms", roomName);
 
@@ -38,6 +41,7 @@ inRoom.addEventListener("click", async () => {
 
   if (roomSnap.exists()) {
     console.log("部屋あり");
+    alert("部屋名が既に存在します。");
   } else {
     console.log("部屋なし");
 
@@ -45,6 +49,9 @@ inRoom.addEventListener("click", async () => {
     const userData = JSON.parse(data);
     const userID = userData.user_ID;
     const playerName = userData.player_name;
+
+    userData.room_name = roomName;
+    localStorage.setItem(key, JSON.stringify(userData));
 
     await setDoc(roomRef, {
       playerCount: playerCount,
@@ -56,5 +63,7 @@ inRoom.addEventListener("click", async () => {
         },
       },
     });
+
+    window.location.href = "./hostGameDisplay.html";
   }
 });
