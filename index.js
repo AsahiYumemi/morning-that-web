@@ -49,7 +49,7 @@ Btns.forEach((btn) => {
 
     if (id === "host") {
       console.log("司会者として参加が選ばれた");
-      window.location.href = "./pages/hostDisplay.html";
+      window.location.href = "./pages/hostDisplay/hostDisplay.html";
     } else if (id === "player") {
       console.log("回答者として参加が選ばれた");
       // 回答者用の処理を書く

@@ -1,4 +1,4 @@
-import { db } from "../firebase/firebase.js";
+import { db } from "../../firebase/firebase.js";
 
 import {
   doc,
@@ -44,7 +44,7 @@ const backBtn = document.getElementById("back_btn");
 
 backBtn.addEventListener("click", async () => {
   await deleteDoc(doc(db, "rooms", roomName));
-  window.location.href = "../index.html";
+  window.location.href = "../../index.html";
 });
 
 onSnapshot(roomRef, (snapshot) => {

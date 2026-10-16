@@ -1,4 +1,4 @@
-import { db } from "../firebase/firebase.js";
+import { db } from "../../firebase/firebase.js";
 
 import {
   doc,
@@ -64,6 +64,6 @@ inRoom.addEventListener("click", async () => {
       },
     });
 
-    window.location.href = "./hostGameDisplay.html";
+    window.location.href = "../hostGameDisplay/hostGameDisplay.html";
   }
 });
