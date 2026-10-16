@@ -50,16 +50,17 @@ backBtn.addEventListener("click", async () => {
 onSnapshot(roomRef, (snapshot) => {
   const roomData = snapshot.data();
   const players = roomData.players;
-  let playerNames;
 
-  playerNames = Object.values(players).map((players) => players.name);
+  const playerNames = Object.values(players).map((player) => player.name);
 
   const memberBox = document.querySelector(".member_contents");
-  const memberCount = playerNames.length;
 
-  const limitBox = document.querySelector(".limit_contents");
+  // 一旦リセット
+  memberBox.innerHTML = "";
 
-  for (let i = 0; i <= memberCount; i++) {
-    memberBox.innerHTML = `<div class="member">${playerNames[i - 1]}</div>`;
-  }
+  playerNames.forEach((name) => {
+    memberBox.innerHTML += `
+      <div class="member">${name}</div>
+    `;
+  });
 });

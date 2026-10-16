@@ -20,7 +20,7 @@ window.addEventListener("DOMContentLoaded", () => {
 const backBtn = document.getElementById("back_btn");
 
 backBtn.addEventListener("click", () => {
-  window.location.href = "../index.html";
+  window.location.href = "../../index.html";
 });
 
 const inRoom = document.getElementById("in_room");

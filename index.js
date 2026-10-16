@@ -52,7 +52,7 @@ Btns.forEach((btn) => {
       window.location.href = "./pages/hostDisplay/hostDisplay.html";
     } else if (id === "player") {
       console.log("回答者として参加が選ばれた");
-      // 回答者用の処理を書く
+      window.location.href = "./pages/playerDisplay/playerDisplay.html";
     }
   });
 });

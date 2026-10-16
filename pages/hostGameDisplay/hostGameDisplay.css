@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: "mainFont";
-  src: url("../font/boku2b/Boku2-Bold.otf");
+  src: url("../../font/boku2b/Boku2-Bold.otf");
   font-weight: 400;
   font-style: normal;
 }
@@ -231,14 +231,13 @@ button {
   text-align: center;
   font-family: "mainFont";
   font-size: 20px;
+  color: #ffffff;
 }
 .morning button {
   background-color: #ff8e51;
   border: 0;
-  color: #000000;
 }
 .night button {
   background-color: #490da4;
   border: 1px solid #ffffff;
-  color: #ffffff;
 }
