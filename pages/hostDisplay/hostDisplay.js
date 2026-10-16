@@ -62,6 +62,7 @@ inRoom.addEventListener("click", async () => {
           isHost: true,
         },
       },
+      timerState: "stop",
     });
 
     window.location.href = "../hostGameDisplay/hostGameDisplay.html";

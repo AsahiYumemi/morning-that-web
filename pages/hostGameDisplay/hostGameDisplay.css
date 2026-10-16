@@ -192,11 +192,12 @@ header {
 }
 .question_contents {
   width: 200px;
-  height: 50px;
+  height: auto;
+  min-height: 50px;
   font-family: "mainFont";
   font-size: 20px;
   text-align: center;
-  color: #ffffff;
+  color: #000000;
 }
 .morning .question_contents {
   background-color: #ffffff;

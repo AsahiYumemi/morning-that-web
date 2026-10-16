@@ -27,16 +27,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   const limit = roomData.thinkingTime;
   const playerNames = Object.values(players).map((player) => player.name);
 
-  const memberBox = document.querySelector(".member_contents");
-
-  // 一旦リセット
-  memberBox.innerHTML = "";
-
-  playerNames.forEach((name) => {
-    memberBox.innerHTML += `
-      <div class="member">${name}</div>
-    `;
-  });
+  updateMemberList(playerNames);
 
   const limitBox = document.querySelector(".limit_contents");
   limitBox.innerHTML = limit;
@@ -47,20 +38,82 @@ backBtn.addEventListener("click", () => {
   window.location.href = "../../index.html";
 });
 
+/**Firebase監視 */
+let prevPlayers = 0; /**プレイヤー変更の監視用 */
+let prevQuestion = ""; /**お題変更の監視用 */
+let prevTimerState = "";
 onSnapshot(roomRef, (snapshot) => {
   const roomData = snapshot.data();
   const players = roomData.players;
 
+  /**各種データ取得 */
   const playerNames = Object.values(players).map((player) => player.name);
+  const question = roomData.question;
+  const timerState = roomData.timerState;
+  const limit = roomData.thinkingTime;
 
+  if (playerNames.length !== prevPlayers) {
+    updateMemberList(playerNames);
+    prevPlayers = playerNames.length;
+    console.log("メンバーリスト更新");
+  }
+  if (question !== prevQuestion) {
+    updateQuestionDisplay(question);
+    prevQuestion = question;
+    console.log("お題更新");
+  }
+  if (timerState !== prevTimerState) {
+    if (timerState === "strat") {
+      timer(limit);
+    }
+    prevTimerState = timerState;
+    console.log("タイマー更新");
+  }
+});
+
+/**memberList 更新 */
+function updateMemberList(playerNames) {
   const memberBox = document.querySelector(".member_contents");
 
-  // 一旦リセット
   memberBox.innerHTML = "";
-
   playerNames.forEach((name) => {
     memberBox.innerHTML += `
       <div class="member">${name}</div>
     `;
   });
-});
+}
+/**questionDisplay 更新 */
+function updateQuestionDisplay(question) {
+  const questionDisplay = document.querySelector(".question_contents");
+  if (question !== undefined) {
+    questionDisplay.innerHTML = "";
+    questionDisplay.innerHTML = question;
+  } else {
+    questionDisplay.innerHTML = "";
+  }
+}
+/**タイマー */
+let timerId = null;
+
+function timer(time) {
+  let remaining = Number(time);
+
+  const display = document.querySelector(".limit_contents");
+
+  display.textContent = remaining;
+
+  timerId = setInterval(async () => {
+    remaining--;
+
+    display.textContent = remaining;
+
+    if (remaining <= 0) {
+      clearInterval(timerId);
+      await updateDoc(roomRef, {
+        timerState: "stop",
+      });
+      display.textContent = time;
+      alert("時間です！");
+    }
+  }, 1000);
+}
