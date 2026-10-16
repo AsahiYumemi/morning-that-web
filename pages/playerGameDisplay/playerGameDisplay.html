@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>朝からそれ〇〇</title>
+
+    <link rel="stylesheet" href="./playerGameDisplay.css" />
+    <script src="./playerGameDisplay.js" type="module"></script>
+  </head>
+  <body class="all">
+    <header>
+      <div class="header_logo">
+        <img src="../../logo/logo_ver1.svg" class="header_morning_logo" />
+        <img src="../../logo/logo_ver2.svg" class="header_night_logo" />
+      </div>
+      <button id="back_btn">退出</button>
+    </header>
+    <div class="action">
+      <div class="member_box">
+        <div class="member_title">参加者</div>
+        <div class="member_contents"></div>
+      </div>
+      <div class="gameInfo_box">
+        <div class="limit_box">
+          <div class="limit_title">制限時間</div>
+          <div class="limit_contents"></div>
+        </div>
+        <div class="answered_player_box">
+          <div class="answered_player_title">回答者</div>
+          <div class="answered_player_contents">0</div>
+        </div>
+      </div>
+      <div class="question_box">
+        <div class="question_title">お題</div>
+        <div class="question_contents"></div>
+      </div>
+      <input type="text" id="answer" placeholder="回答を入力" />
+      <button id="answerGo">回答を送信</button>
+    </div>
+  </body>
+</html>

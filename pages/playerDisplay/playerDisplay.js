@@ -59,7 +59,7 @@ inRoom.addEventListener("click", async () => {
       },
     });
 
-    console.log("参加しました！");
+    window.location.href = "../playerGameDisplay/playerGameDisplay.html";
   } else {
     console.log("部屋なし");
     alert("部屋名が存在しません。");
