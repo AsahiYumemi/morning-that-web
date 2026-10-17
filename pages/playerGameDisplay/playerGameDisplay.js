@@ -41,8 +41,13 @@ backBtn.addEventListener("click", () => {
 /**Firebase監視 */
 let prevPlayers = 0; /**プレイヤー変更の監視用 */
 let prevQuestion = ""; /**お題変更の監視用 */
-let prevTimerState = "";
+let prevTimerState = ""; /**タイマーの状態監視用 */
+let prevAnswerOpen = ""; /**回答表示の監視用 */
 onSnapshot(roomRef, (snapshot) => {
+  const data = localStorage.getItem(key);
+  const userData = JSON.parse(data);
+  const userID = userData.user_ID;
+
   const roomData = snapshot.data();
   const players = roomData.players;
 
@@ -50,6 +55,7 @@ onSnapshot(roomRef, (snapshot) => {
   const playerNames = Object.values(players).map((player) => player.name);
   const question = roomData.question;
   const timerState = roomData.timerState;
+  const answerOpen = players[userID].answer_open;
   const limit = roomData.thinkingTime;
 
   if (playerNames.length !== prevPlayers) {
@@ -68,6 +74,13 @@ onSnapshot(roomRef, (snapshot) => {
     }
     prevTimerState = timerState;
     console.log("タイマー更新");
+  }
+  if (answerOpen !== prevAnswerOpen) {
+    if (answerOpen === true) {
+      openAnswer(players);
+    }
+    prevAnswerOpen = answerOpen;
+    console.log("anwerOpen更新");
   }
 });
 
@@ -116,4 +129,21 @@ function timer(time) {
       alert("時間です！");
     }
   }, 1000);
+}
+/**回答一覧更新 */
+function openAnswer(players) {
+  const answerListID = document.getElementById("answerList");
+  const answerListClass = document.querySelector(".answerList");
+
+  answerListClass.classList.add("open");
+  answerListID.innerHTML = "";
+
+  Object.values(players).forEach((player) => {
+    answerListID.innerHTML += `
+        <div class="answerBox">
+          <div class="nameBox">${player.name}</div>
+          <div class="answeredBox">${player.answer}</div>
+        </div>
+    `;
+  });
 }
