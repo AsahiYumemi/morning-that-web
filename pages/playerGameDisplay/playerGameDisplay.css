@@ -290,11 +290,9 @@ button:active {
 }
 .morning .nameBox {
   background-color: #ff8e51;
-  border: 0;
 }
 .night .nameBox {
   background-color: #490da4;
-  border: 1px solid #ffffff;
 }
 .answeredBox {
   width: 200px;
