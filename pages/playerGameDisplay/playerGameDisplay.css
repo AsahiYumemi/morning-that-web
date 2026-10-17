@@ -302,8 +302,13 @@ button:active {
   max-height: 50px;
   text-align: center;
   overflow-x: auto;
+  color: #000;
 }
 .morning .answeredBox {
   background-color: #ffffff;
   border: 1px solid #ff8e51;
+}
+.night .answerBox {
+  background-color: #ffffff;
+  border: 1px solid #490da4;
 }
