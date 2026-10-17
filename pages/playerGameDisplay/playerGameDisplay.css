@@ -268,7 +268,12 @@ button:active {
   font-family: "mainFont";
 }
 .morning .answerList {
+  color: #000;
   background-color: #ffffff;
+}
+.night .answerList {
+  color: #ffffff;
+  background-color: #1c1c1c;
 }
 .answerList.open {
   display: flex;
