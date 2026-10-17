@@ -174,7 +174,7 @@ header {
 
 .question_box {
   width: 200px;
-  height: 75px;
+  height: auto;
 }
 .question_title {
   width: 200px;
