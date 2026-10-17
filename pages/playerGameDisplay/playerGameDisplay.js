@@ -58,6 +58,31 @@ answerGo.addEventListener("click", async () => {
   answerGo.classList.add("answered");
 });
 
+/**回答一覧を閉じる */
+const nextGame = document.getElementById("nextGame");
+
+nextGame.addEventListener("click", async () => {
+  const data = localStorage.getItem(key);
+  const userData = JSON.parse(data);
+  const userID = userData.user_ID;
+
+  const answerListClass = document.querySelector(".answerList");
+  const answerListID = document.getElementById("answerList");
+  const answer = document.getElementById("answer");
+  const answerGo = document.getElementById("answerGo");
+
+  answerListClass.classList.remove("open");
+  answerListID.innerHTML = "";
+  answer.value = "";
+  answerGo.classList.remove("answered");
+
+  const reset_game = doc(db, "rooms", roomName);
+  await updateDoc(reset_game, {
+    [`players.${userID}.answer`]: "",
+    [`players.${userID}.answer_open`]: false,
+  });
+});
+
 /**Firebase監視 */
 let prevPlayers = 0; /**プレイヤー変更の監視用 */
 let prevQuestion = ""; /**お題変更の監視用 */

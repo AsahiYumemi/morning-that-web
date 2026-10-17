@@ -260,6 +260,7 @@ button:active {
   width: 100vw;
   min-height: 100vh;
   height: auto;
+  padding: 20px;
   display: none;
   flex-direction: column;
   align-items: center;
@@ -300,23 +301,4 @@ button:active {
 .morning .answeredBox {
   background-color: #ffffff;
   border: 1px solid #ff8e51;
-}
-
-#nextGame {
-  width: 200px;
-  height: 50px;
-  text-align: center;
-  font-size: 20px;
-  color: #ffffff;
-}
-.morning #nextGame {
-  background-color: #ff8e51;
-  border: 0;
-}
-.night #nextGame {
-  background-color: #490da4;
-  border: 1px solid #ffffff;
-}
-#nextGame:active {
-  opacity: 0.5;
 }

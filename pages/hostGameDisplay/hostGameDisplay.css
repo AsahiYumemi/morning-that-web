@@ -259,6 +259,7 @@ button:active {
   width: 100vw;
   min-height: 100vh;
   height: auto;
+  padding: 20px;
   display: none;
   flex-direction: column;
   align-items: center;
@@ -266,7 +267,12 @@ button:active {
   font-family: "mainFont";
 }
 .morning .answerList {
+  color: #000;
   background-color: #ffffff;
+}
+.night .answerList {
+  color: #ffffff;
+  background-color: #1c1c1c;
 }
 .answerList.open {
   display: flex;
@@ -287,7 +293,6 @@ button:active {
 }
 .night .nameBox {
   background-color: #490da4;
-  border: 1px solid #ffffff;
 }
 .answeredBox {
   width: 200px;
@@ -295,27 +300,13 @@ button:active {
   max-height: 50px;
   text-align: center;
   overflow-x: auto;
+  color: #000;
 }
 .morning .answeredBox {
   background-color: #ffffff;
   border: 1px solid #ff8e51;
 }
-
-#nextGame {
-  width: 200px;
-  height: 50px;
-  text-align: center;
-  font-size: 20px;
-  color: #ffffff;
-}
-.morning #nextGame {
-  background-color: #ff8e51;
-  border: 0;
-}
-.night #nextGame {
-  background-color: #490da4;
-  border: 1px solid #ffffff;
-}
-#nextGame:active {
-  opacity: 0.5;
+.night .answerBox {
+  background-color: #ffffff;
+  border: 1px solid #490da4;
 }
