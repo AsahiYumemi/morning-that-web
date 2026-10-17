@@ -38,6 +38,26 @@ backBtn.addEventListener("click", () => {
   window.location.href = "../../index.html";
 });
 
+/**回答を送信 */
+const answerGo = document.getElementById("answerGo");
+
+answerGo.addEventListener("click", async () => {
+  const data = localStorage.getItem(key);
+  const userData = JSON.parse(data);
+  const userID = userData.user_ID;
+
+  const answer = document.getElementById("answer").value;
+
+  if (!answer) return;
+
+  const add_answer = doc(db, "rooms", roomName);
+  await updateDoc(add_answer, {
+    [`players.${userID}.answer`]: answer,
+  });
+  alert("回答が送信されました！");
+  answerGo.classList.add("answered");
+});
+
 /**Firebase監視 */
 let prevPlayers = 0; /**プレイヤー変更の監視用 */
 let prevQuestion = ""; /**お題変更の監視用 */
