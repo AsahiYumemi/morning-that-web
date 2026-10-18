@@ -22,6 +22,9 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const roomSnap = await getDoc(roomRef);
   const roomData = roomSnap.data();
+
+  if (!roomData) window.location.href = "../../index.html";
+
   const players = roomData.players;
   const limit = roomData.thinkingTime;
   const post = players[userID].isHost;
@@ -123,6 +126,9 @@ onSnapshot(roomRef, (snapshot) => {
   const userID = userData.user_ID;
 
   const roomData = snapshot.data();
+
+  if (!roomData) window.location.href = "../../index.html";
+
   const players = roomData.players;
 
   /**各種データ取得 */
