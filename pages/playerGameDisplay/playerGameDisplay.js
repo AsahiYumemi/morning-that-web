@@ -195,12 +195,16 @@ function updateMemberList(players) {
 }
 /**questionDisplay 更新 */
 function updateQuestionDisplay(question) {
-  const questionDisplay = document.querySelector(".question_contents");
+  const questionDisplays = document.querySelectorAll(".question_contents");
   if (question !== undefined) {
-    questionDisplay.innerHTML = "";
-    questionDisplay.innerHTML = question;
+    questionDisplays.forEach((questionDisplay) => {
+      questionDisplay.innerHTML = "";
+      questionDisplay.innerHTML = question;
+    });
   } else {
-    questionDisplay.innerHTML = "";
+    questionDisplays.forEach((questionDisplay) => {
+      questionDisplay.innerHTML = "";
+    });
   }
 }
 /**タイマー */
