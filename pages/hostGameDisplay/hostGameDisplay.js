@@ -200,7 +200,7 @@ function updateMemberList(players) {
   memberBox.innerHTML = "";
   playerObjects.forEach((playerObject) => {
     memberBox.innerHTML += `
-      <div class="member">${playerObject.name}<button class="member_Btn">指名</button></div>
+      <div class="member">${playerObject.name}<button class="member_Btn" id="${playerObject.userID}">指名</button></div>
     `;
   });
 }
