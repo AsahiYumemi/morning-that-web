@@ -18,19 +18,20 @@ const roomRef = doc(db, "rooms", roomName);
 
 window.addEventListener("DOMContentLoaded", async () => {
   const mode = userData.game_mode;
+  const userID = userData.user_ID;
 
-  document.querySelector(".all").classList.add(mode);
   const roomSnap = await getDoc(roomRef);
-
   const roomData = roomSnap.data();
   const players = roomData.players;
   const limit = roomData.thinkingTime;
-  const playerNames = Object.values(players).map((player) => player.name);
+  const post = players[userID].isHost;
 
-  updateMemberList(playerNames);
-
-  const limitBox = document.querySelector(".limit_contents");
-  limitBox.innerHTML = limit;
+  document.querySelector(".all").classList.add(mode);
+  document
+    .querySelector(".action")
+    .classList.add(`${post === true ? "host" : "player"}`);
+  updateMemberList(players);
+  document.querySelector(".limit_contents").innerHTML = limit;
 });
 const backBtn = document.getElementById("back_btn");
 
@@ -74,8 +75,6 @@ openQuestion.addEventListener("click", async () => {
 const answerGo = document.getElementById("answerGo");
 
 answerGo.addEventListener("click", async () => {
-  const data = localStorage.getItem(key);
-  const userData = JSON.parse(data);
   const userID = userData.user_ID;
 
   const answer = document.getElementById("answer").value;
@@ -94,8 +93,6 @@ answerGo.addEventListener("click", async () => {
 const nextGame = document.getElementById("nextGame");
 
 nextGame.addEventListener("click", async () => {
-  const data = localStorage.getItem(key);
-  const userData = JSON.parse(data);
   const userID = userData.user_ID;
 
   const answerListClass = document.querySelector(".answerList");
@@ -120,10 +117,8 @@ let prevPlayers = 0; /**プレイヤー変更の監視用 */
 let prevQuestion = ""; /**お題変更の監視用 */
 let prevTimerState = ""; /**タイマーの状態監視用 */
 let prevAnswerOpen = ""; /**回答表示の監視用 */
-let prevHost = false; /**ホストの状態監視用 */
+let prevHost = true; /**ホストの状態監視用 */
 onSnapshot(roomRef, (snapshot) => {
-  const data = localStorage.getItem(key);
-  const userData = JSON.parse(data);
   const userID = userData.user_ID;
 
   const roomData = snapshot.data();
@@ -138,7 +133,7 @@ onSnapshot(roomRef, (snapshot) => {
   const host = players[userID].isHost;
 
   if (playerNames.length !== prevPlayers) {
-    updateMemberList(playerNames);
+    updateMemberList(players);
     prevPlayers = playerNames.length;
   }
   if (question !== prevQuestion) {
@@ -171,13 +166,15 @@ onSnapshot(roomRef, (snapshot) => {
 });
 
 /**memberList 更新 */
-function updateMemberList(playerNames) {
+function updateMemberList(players) {
+  const userID = userData.user_ID;
   const memberBox = document.querySelector(".member_contents");
+  const playerObjects = Object.values(players);
 
   memberBox.innerHTML = "";
-  playerNames.forEach((name) => {
+  playerObjects.forEach((playerObject) => {
     memberBox.innerHTML += `
-      <div class="member">${name}</div>
+      <div class="member ${playerObject.userID === userID ? "me" : "another"}">${playerObject.name}${playerObject.userID === userID ? "(自分)" : ""}</div>
     `;
   });
 }

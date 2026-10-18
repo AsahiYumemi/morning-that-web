@@ -113,6 +113,9 @@ header {
   background-color: #ffffff;
   border: 1px solid #490da4;
 }
+.me {
+  font-weight: bold;
+}
 
 .action {
   width: 100%;

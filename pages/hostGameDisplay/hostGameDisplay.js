@@ -18,19 +18,20 @@ const roomRef = doc(db, "rooms", roomName);
 
 window.addEventListener("DOMContentLoaded", async () => {
   const mode = userData.game_mode;
-
-  document.querySelector(".all").classList.add(mode);
+  const userID = userData.user_ID;
 
   const roomSnap = await getDoc(roomRef);
   const roomData = roomSnap.data();
   const players = roomData.players;
   const limit = roomData.thinkingTime;
-  const playerNames = Object.values(players).map((players) => players.name);
+  const post = players[userID].isHost;
 
-  const limitBox = document.querySelector(".limit_contents");
-
+  document.querySelector(".all").classList.add(mode);
+  document
+    .querySelector(".action")
+    .classList.add(`${post === true ? "host" : "player"}`);
   updateMemberList(players);
-  limitBox.innerHTML = limit;
+  document.querySelector(".limit_contents").innerHTML = limit;
 });
 
 const backBtn = document.getElementById("back_btn");
@@ -86,8 +87,6 @@ timerState.addEventListener("click", async () => {
 const answerGo = document.getElementById("answerGo");
 
 answerGo.addEventListener("click", async () => {
-  const data = localStorage.getItem(key);
-  const userData = JSON.parse(data);
   const userID = userData.user_ID;
 
   const answer = document.getElementById("answer").value;
@@ -124,8 +123,6 @@ answerOpen.addEventListener("click", async () => {
 const nextGame = document.getElementById("nextGame");
 
 nextGame.addEventListener("click", async () => {
-  const data = localStorage.getItem(key);
-  const userData = JSON.parse(data);
   const userID = userData.user_ID;
 
   const answerListClass = document.querySelector(".answerList");
@@ -177,8 +174,6 @@ let prevTimerState = ""; /**タイマーの状態監視用 */
 let prevAnswerOpen = ""; /**回答表示の監視用 */
 let prevHost = true; /**ホストの状態監視用 */
 onSnapshot(roomRef, (snapshot) => {
-  const data = localStorage.getItem(key);
-  const userData = JSON.parse(data);
   const userID = userData.user_ID;
 
   const roomData = snapshot.data();
@@ -227,13 +222,14 @@ onSnapshot(roomRef, (snapshot) => {
 
 /**memberList 更新 */
 function updateMemberList(players) {
+  const userID = userData.user_ID;
   const memberBox = document.querySelector(".member_contents");
   const playerObjects = Object.values(players);
 
   memberBox.innerHTML = "";
   playerObjects.forEach((playerObject) => {
     memberBox.innerHTML += `
-      <div class="member">${playerObject.name}<button class="member_Btn" id="${playerObject.userID}">指名</button></div>
+      <div class="member ${playerObject.userID === userID ? "me" : "another"}">${playerObject.name}${playerObject.userID === userID ? "(自分)" : ""}<button class="member_Btn" id="${playerObject.userID}">指名</button></div>
     `;
   });
 }
@@ -272,6 +268,7 @@ function timer(time) {
     }
   }, 1000);
 }
+
 /**回答一覧更新 */
 function openAnswer(players) {
   const answerListID = document.getElementById("answerList");

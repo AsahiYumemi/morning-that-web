@@ -132,6 +132,9 @@ header {
   flex-direction: row;
   justify-content: space-between;
 }
+.me {
+  font-weight: bold;
+}
 
 .gameInfo_box {
   width: 200px;
