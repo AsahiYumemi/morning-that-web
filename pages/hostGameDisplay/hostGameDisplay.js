@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const limitBox = document.querySelector(".limit_contents");
 
-  updateMemberList(playerNames);
+  updateMemberList(players);
   limitBox.innerHTML = limit;
 });
 
@@ -166,7 +166,7 @@ onSnapshot(roomRef, (snapshot) => {
   const limit = roomData.thinkingTime;
 
   if (playerNames.length !== prevPlayers) {
-    updateMemberList(playerNames);
+    updateMemberList(players);
     prevPlayers = playerNames.length;
     console.log("メンバーリスト更新");
   }
@@ -192,13 +192,15 @@ onSnapshot(roomRef, (snapshot) => {
 });
 
 /**memberList 更新 */
-function updateMemberList(playerNames) {
+function updateMemberList(players) {
   const memberBox = document.querySelector(".member_contents");
+  const playerObjects = Object.values(players);
+  console.log(playerObjects);
 
   memberBox.innerHTML = "";
-  playerNames.forEach((name) => {
+  playerObjects.forEach((playerObject) => {
     memberBox.innerHTML += `
-      <div class="member">${name}</div>
+      <div class="member">${playerObject.name}<button class="member_Btn">指名</button></div>
     `;
   });
 }

@@ -54,6 +54,7 @@ inRoom.addEventListener("click", async () => {
 
     await updateDoc(roomRef_addPlayer, {
       [`players.${userID}`]: {
+        userID: userID,
         name: playerName,
         isHost: false,
       },

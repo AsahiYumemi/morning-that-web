@@ -58,6 +58,7 @@ inRoom.addEventListener("click", async () => {
       thinkingTime: thinkingTime,
       players: {
         [userID]: {
+          userID: userID,
           name: playerName,
           isHost: true,
         },
