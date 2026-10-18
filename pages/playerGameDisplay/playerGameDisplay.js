@@ -120,7 +120,7 @@ let prevPlayers = 0; /**プレイヤー変更の監視用 */
 let prevQuestion = ""; /**お題変更の監視用 */
 let prevTimerState = ""; /**タイマーの状態監視用 */
 let prevAnswerOpen = ""; /**回答表示の監視用 */
-let prevHost = true; /**ホストの状態監視用 */
+let prevHost = false; /**ホストの状態監視用 */
 onSnapshot(roomRef, (snapshot) => {
   const data = localStorage.getItem(key);
   const userData = JSON.parse(data);
@@ -138,7 +138,7 @@ onSnapshot(roomRef, (snapshot) => {
   const host = players[userID].isHost;
 
   if (playerNames.length !== prevPlayers) {
-    updateMemberList(players);
+    updateMemberList(playerNames);
     prevPlayers = playerNames.length;
   }
   if (question !== prevQuestion) {
