@@ -97,6 +97,7 @@ header {
   background-color: #490da4;
 }
 .member_contents {
+  padding: 5px;
   width: 200px;
   max-height: 100px;
   height: auto;
