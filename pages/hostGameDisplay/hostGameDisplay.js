@@ -212,6 +212,7 @@ onSnapshot(roomRef, (snapshot) => {
     if (host === true) {
       action.classList.add("host");
       action.classList.remove("player");
+      document.getElementById("firstText").value = "";
     } else {
       action.classList.remove("host");
       action.classList.add("player");
