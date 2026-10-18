@@ -235,6 +235,12 @@ input {
   border: 1px solid #ffffff;
   color: #ffffff;
 }
+.host #firstText {
+  display: block;
+}
+.player #firstText {
+  display: none;
+}
 
 button {
   width: 200px;
@@ -261,6 +267,12 @@ button:active {
   padding-left: 2px;
   padding-right: 2px;
   font-size: 15px;
+}
+.host #openQuestion {
+  display: block;
+}
+.player #openQuestion {
+  display: none;
 }
 
 #answerGo.answered {

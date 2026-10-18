@@ -38,6 +38,38 @@ backBtn.addEventListener("click", () => {
   window.location.href = "../../index.html";
 });
 
+/**ゲーム自体の処理 */
+const questionList = [
+  "困ったときに頼りになるもの",
+  "手元にあったら嬉しいもの",
+  "いつも頼んでしまうもの",
+  "信頼できる人",
+  "大切なもの",
+  "あったら困るもの",
+  "みんな大好きなもの",
+  "縁起の良いもの",
+  "縁起の悪いもの",
+  "偉人",
+];
+
+/**お題の公開 */
+const openQuestion = document.getElementById("openQuestion");
+
+openQuestion.addEventListener("click", async () => {
+  const firstText = document.getElementById("firstText").value;
+
+  if (!firstText) return;
+
+  const questionCount = questionList.length;
+  const questionText = questionList[Math.floor(Math.random() * questionCount)];
+  const question = firstText + "から始まる" + questionText;
+
+  const add_question = doc(db, "rooms", roomName);
+  await updateDoc(add_question, {
+    question: question,
+  });
+});
+
 /**回答を送信 */
 const answerGo = document.getElementById("answerGo");
 
@@ -88,6 +120,7 @@ let prevPlayers = 0; /**プレイヤー変更の監視用 */
 let prevQuestion = ""; /**お題変更の監視用 */
 let prevTimerState = ""; /**タイマーの状態監視用 */
 let prevAnswerOpen = ""; /**回答表示の監視用 */
+let prevHost = true; /**ホストの状態監視用 */
 onSnapshot(roomRef, (snapshot) => {
   const data = localStorage.getItem(key);
   const userData = JSON.parse(data);
@@ -102,30 +135,38 @@ onSnapshot(roomRef, (snapshot) => {
   const timerState = roomData.timerState;
   const answerOpen = players[userID].answer_open;
   const limit = roomData.thinkingTime;
+  const host = players[userID].isHost;
 
   if (playerNames.length !== prevPlayers) {
-    updateMemberList(playerNames);
+    updateMemberList(players);
     prevPlayers = playerNames.length;
-    console.log("メンバーリスト更新");
   }
   if (question !== prevQuestion) {
     updateQuestionDisplay(question);
     prevQuestion = question;
-    console.log("お題更新");
   }
   if (timerState !== prevTimerState) {
     if (timerState === "strat") {
       timer(limit);
     }
     prevTimerState = timerState;
-    console.log("タイマー更新");
   }
   if (answerOpen !== prevAnswerOpen) {
     if (answerOpen === true) {
       openAnswer(players);
     }
     prevAnswerOpen = answerOpen;
-    console.log("anwerOpen更新");
+  }
+  if (host !== prevHost) {
+    const action = document.querySelector(".action");
+    if (host === true) {
+      action.classList.add("host");
+      action.classList.remove("player");
+    } else {
+      action.classList.remove("host");
+      action.classList.add("player");
+    }
+    prevHost = host;
   }
 });
 

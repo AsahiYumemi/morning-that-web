@@ -145,11 +145,37 @@ nextGame.addEventListener("click", async () => {
   });
 });
 
+const memberBox = document.querySelector(".member_box");
+
+memberBox.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("member_Btn")) {
+    const memberID = e.target.id;
+    const roomSnap = await getDoc(roomRef);
+
+    const roomData = roomSnap.data();
+    const players = roomData.players;
+
+    const updates = {};
+
+    Object.keys(players).forEach((userID) => {
+      updates[`players.${userID}.isHost`] = false;
+    });
+
+    await updateDoc(roomRef, updates);
+
+    const add_host = doc(db, "rooms", roomName);
+    await updateDoc(add_host, {
+      [`players.${memberID}.isHost`]: true,
+    });
+  }
+});
+
 /**Firebase監視 */
 let prevPlayers = 0; /**プレイヤー変更の監視用 */
 let prevQuestion = ""; /**お題変更の監視用 */
 let prevTimerState = ""; /**タイマーの状態監視用 */
 let prevAnswerOpen = ""; /**回答表示の監視用 */
+let prevHost = true; /**ホストの状態監視用 */
 onSnapshot(roomRef, (snapshot) => {
   const data = localStorage.getItem(key);
   const userData = JSON.parse(data);
@@ -164,30 +190,38 @@ onSnapshot(roomRef, (snapshot) => {
   const timerState = roomData.timerState;
   const answerOpen = players[userID].answer_open;
   const limit = roomData.thinkingTime;
+  const host = players[userID].isHost;
 
   if (playerNames.length !== prevPlayers) {
     updateMemberList(players);
     prevPlayers = playerNames.length;
-    console.log("メンバーリスト更新");
   }
   if (question !== prevQuestion) {
     updateQuestionDisplay(question);
     prevQuestion = question;
-    console.log("お題更新");
   }
   if (timerState !== prevTimerState) {
     if (timerState === "strat") {
       timer(limit);
     }
     prevTimerState = timerState;
-    console.log("タイマー更新");
   }
   if (answerOpen !== prevAnswerOpen) {
     if (answerOpen === true) {
       openAnswer(players);
     }
     prevAnswerOpen = answerOpen;
-    console.log("anwerOpen更新");
+  }
+  if (host !== prevHost) {
+    const action = document.querySelector(".action");
+    if (host === true) {
+      action.classList.add("host");
+      action.classList.remove("player");
+    } else {
+      action.classList.remove("host");
+      action.classList.add("player");
+    }
+    prevHost = host;
   }
 });
 
@@ -195,7 +229,6 @@ onSnapshot(roomRef, (snapshot) => {
 function updateMemberList(players) {
   const memberBox = document.querySelector(".member_contents");
   const playerObjects = Object.values(players);
-  console.log(playerObjects);
 
   memberBox.innerHTML = "";
   playerObjects.forEach((playerObject) => {
