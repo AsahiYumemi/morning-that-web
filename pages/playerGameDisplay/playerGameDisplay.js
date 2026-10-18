@@ -118,6 +118,7 @@ let prevQuestion = ""; /**お題変更の監視用 */
 let prevTimerState = ""; /**タイマーの状態監視用 */
 let prevAnswerOpen = ""; /**回答表示の監視用 */
 let prevHost = true; /**ホストの状態監視用 */
+let prevAnswerCount = 0; /**回答者数の監視用 */
 onSnapshot(roomRef, (snapshot) => {
   const userID = userData.user_ID;
 
@@ -131,6 +132,9 @@ onSnapshot(roomRef, (snapshot) => {
   const answerOpen = players[userID].answer_open;
   const limit = roomData.thinkingTime;
   const host = players[userID].isHost;
+  const answerCount = Object.values(players).filter(
+    (player) => player.answer,
+  ).length;
 
   if (playerNames.length !== prevPlayers) {
     updateMemberList(players);
@@ -163,6 +167,10 @@ onSnapshot(roomRef, (snapshot) => {
       action.classList.add("player");
     }
     prevHost = host;
+  }
+  if (answerCount !== prevAnswerCount) {
+    document.querySelector(".answered_player_contents").innerHTML = answerCount;
+    prevAnswerCount = answerCount;
   }
 });
 
