@@ -42,18 +42,7 @@ backBtn.addEventListener("click", async () => {
 });
 
 /**ゲーム自体の処理 */
-const questionList = [
-  "困ったときに頼りになるもの",
-  "手元にあったら嬉しいもの",
-  "いつも頼んでしまうもの",
-  "信頼できる人",
-  "大切なもの",
-  "あったら困るもの",
-  "みんな大好きなもの",
-  "縁起の良いもの",
-  "縁起の悪いもの",
-  "偉人",
-];
+import { questionListNormal } from "../../questionList/questionList.js";
 
 /**お題の公開 */
 const openQuestion = document.getElementById("openQuestion");
@@ -63,8 +52,9 @@ openQuestion.addEventListener("click", async () => {
 
   if (!firstText) return;
 
-  const questionCount = questionList.length;
-  const questionText = questionList[Math.floor(Math.random() * questionCount)];
+  const questionCount = questionListNormal.length;
+  const questionText =
+    questionListNormal[Math.floor(Math.random() * questionCount)];
   const question = firstText + "から始まる" + questionText;
 
   const add_question = doc(db, "rooms", roomName);
