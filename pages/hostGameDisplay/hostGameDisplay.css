@@ -272,6 +272,10 @@ button:active {
   padding-right: 2px;
   font-size: 15px;
 }
+.host_now {
+  opacity: 0.5;
+  pointer-events: none;
+}
 .host #openQuestion {
   display: block;
 }

@@ -112,7 +112,7 @@ let prevTimerState = ""; /**タイマーの状態監視用 */
 let prevAnswerOpen = ""; /**回答表示の監視用 */
 let prevHost = true; /**ホストの状態監視用 */
 let prevAnswerCount = 0; /**回答者数の監視用 */
-onSnapshot(roomRef, (snapshot) => {
+onSnapshot(roomRef, async (snapshot) => {
   const userID = userData.user_ID;
 
   const roomData = snapshot.data();
@@ -143,6 +143,13 @@ onSnapshot(roomRef, (snapshot) => {
   if (timerState !== prevTimerState) {
     if (timerState === "strat") {
       timer(limit);
+    } else {
+      const display = document.querySelector(".limit_contents");
+      clearInterval(timerId);
+      await updateDoc(roomRef, {
+        timerState: "stop",
+      });
+      display.textContent = limit;
     }
     prevTimerState = timerState;
   }

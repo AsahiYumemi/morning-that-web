@@ -99,6 +99,7 @@ answerOpen.addEventListener("click", async () => {
 
   const roomData = roomSnap.data();
   const players = roomData.players;
+  const time = roomData.thinkingTime;
 
   const updates = {};
 
@@ -107,6 +108,13 @@ answerOpen.addEventListener("click", async () => {
   });
 
   await updateDoc(roomRef, updates);
+
+  const display = document.querySelector(".limit_contents");
+  clearInterval(timerId);
+  await updateDoc(roomRef, {
+    timerState: "stop",
+  });
+  display.textContent = time;
 });
 
 /**回答一覧を閉じる */
@@ -154,6 +162,19 @@ memberBox.addEventListener("click", async (e) => {
     await updateDoc(add_host, {
       [`players.${memberID}.isHost`]: true,
     });
+
+    let hostChangeCount = roomData.hostChangeCount;
+
+    if (!hostChangeCount) {
+      await updateDoc(add_host, {
+        hostChangeCount: 1,
+      });
+    } else {
+      hostChangeCount = hostChangeCount + 1;
+      await updateDoc(add_host, {
+        hostChangeCount: hostChangeCount,
+      });
+    }
   }
 });
 
@@ -164,6 +185,7 @@ let prevTimerState = ""; /**タイマーの状態監視用 */
 let prevAnswerOpen = ""; /**回答表示の監視用 */
 let prevHost = true; /**ホストの状態監視用 */
 let prevAnswerCount = 0; /**回答者数の監視用 */
+let prevHostChangeCount = 0;
 onSnapshot(roomRef, (snapshot) => {
   const userID = userData.user_ID;
 
@@ -177,6 +199,7 @@ onSnapshot(roomRef, (snapshot) => {
   const answerOpen = players[userID].answer_open;
   const limit = roomData.thinkingTime;
   const host = players[userID].isHost;
+  const hostChangeCount = roomData.hostChangeCount;
   const answerCount = Object.values(players).filter(
     (player) => player.answer,
   ).length;
@@ -212,10 +235,14 @@ onSnapshot(roomRef, (snapshot) => {
       action.classList.add("player");
     }
     prevHost = host;
+    updateMemberList(players);
   }
   if (answerCount !== prevAnswerCount) {
     document.querySelector(".answered_player_contents").innerHTML = answerCount;
     prevAnswerCount = answerCount;
+  }
+  if (hostChangeCount !== prevHostChangeCount) {
+    updateMemberList(players);
   }
 });
 
@@ -228,8 +255,14 @@ function updateMemberList(players) {
   memberBox.innerHTML = "";
   playerObjects.forEach((playerObject) => {
     memberBox.innerHTML += `
-      <div class="member ${playerObject.userID === userID ? "me" : "another"}">${playerObject.name}${playerObject.userID === userID ? "(自分)" : ""}<button class="member_Btn" id="${playerObject.userID}">指名</button></div>
+      <div class="member ${playerObject.userID === userID ? "me" : "another"}">
+      ${playerObject.name}
+      ${playerObject.userID === userID ? "(自分)" : ""}
+      <button class="member_Btn ${playerObject.isHost === true ? "host_now" : ""}" id="${playerObject.userID}">指名</button></div>
     `;
+    console.log(
+      `プレイヤー名:${playerObject.name},権限:${playerObject.isHost}`,
+    );
   });
 }
 /**questionDisplay 更新 */
